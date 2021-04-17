@@ -9,6 +9,10 @@ fun remove(nil, n) = []
     | remove(z::l, n) = if z = n then remove(l, n)
                         else z::remove(l,n);
 
+fun BV (V x) = []
+    | BV (App (x,y)) = union((BV x), (BV y))
+    | BV (Abs (n,z)) = (V n)::(BV z);
+
 fun FV (V x) = [(V x)]
     | FV (App (x,y)) = union((FV x),(FV y))
     | FV (Abs (n,z)) = remove((FV z),(V n));
@@ -24,9 +28,9 @@ fun replacefvar x y (V z) = if x = z then (V y) else (V z)
 
 fun max [(V x)] = x
     | max ((V x)::l) = let 
-                        val y = max l
-                    in
-                        if x > y then x else y
-                    end;
+                            val y = max l
+                        in
+                            if x > y then x else y
+                        end;
 
-fun newvarnum exp = (max (FV (exp))) + 1;
+fun newvarnum exp = (max (union((FV exp), (BV exp)))) + 1;
