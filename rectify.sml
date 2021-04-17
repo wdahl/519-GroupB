@@ -34,3 +34,16 @@ fun max [(V x)] = x
                         end;
 
 fun newvarnum exp = (max (union((FV exp), (BV exp)))) + 1;
+
+fun alphaequal (V i) (V j) = (i = j)
+    | alphaequal (App(u,v)) (App(x,y)) = (alphaequal u x) andalso (alphaequal v y)
+    | alphaequal (Abs(m,u)) (Abs(n,v)) = if m = n then (alphaequal u v)
+                                            else 
+                                                let
+                                                    val r = newvarnum (App(Abs(m, u), Abs(n, v)))
+                                                    val uu = replacefvar m r u
+                                                    val vv = replacefvar n r v
+                                                in
+                                                    (alphaequal uu vv)
+                                                end
+    | alphaequal _ _ = false;
