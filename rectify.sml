@@ -11,4 +11,13 @@ fun remove(nil, n) = []
 
 fun FV (V x) = [(V x)]
     | FV (App (x,y)) = union((FV x),(FV y))
-    | FV (Abs(n,z)) = remove((FV z),(V n))
+    | FV (Abs (n,z)) = remove((FV z),(V n));
+
+fun replacefvar x y (V z) = if x = z then (V y) else (V z)
+    | replacefvar x y (Abs (n,z)) = if x = n
+                                    then 
+                                        Abs (n,z)
+                                    else
+                                        Abs (n, (replacefvar x y z))
+    | replacefvar x y (App (u,v)) = App ((replacefvar x y u),
+                                        (replacefvar x y v));
