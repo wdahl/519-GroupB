@@ -3,10 +3,12 @@ datatype Lambdaexp = V of int
                     | Abs of int * Lambdaexp;
 
 fun union(nil, y) = y
-                | union(x::l, y) = x::union(l, y);
+    | union(x::l, y) = x::union(l, y);
 
-
+fun remove(nil, n) = []
+    | remove(z::l, n) = if z = n then remove(l, n)
+                        else z::remove(l,n);
 
 fun FV (V x) = [(V x)]
-                | FV (App (x,y)) = union((FV x),(FV y))
-                | FV (Abs(n,z)) = remove((FV z),(V n))
+    | FV (App (x,y)) = union((FV x),(FV y))
+    | FV (Abs(n,z)) = remove((FV z),(V n))
