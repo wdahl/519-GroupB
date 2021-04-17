@@ -21,3 +21,12 @@ fun replacefvar x y (V z) = if x = z then (V y) else (V z)
                                         Abs (n, (replacefvar x y z))
     | replacefvar x y (App (u,v)) = App ((replacefvar x y u),
                                         (replacefvar x y v));
+
+fun max [(V x)] = x
+    | max ((V x)::l) = let 
+                        val y = max l
+                    in
+                        if x > y then x else y
+                    end;
+
+fun newvarnum exp = (max (FV (exp))) + 1;
