@@ -58,9 +58,9 @@ fun alphaequal (V i) (V j) = (i = j)
 
 fun rectify (V x) = (V x)
     | rectify (App(u,v)) = App((rectify u), (rectify v))
-    | rectify (Abs(m,u)) = let
+    | rectify (Abs(m,u)) = let  
                             val r = newvarnum (Abs(m,u))
                             val uu = replacefvar m r u
-                        in 
-                            uu
+                        in
+                            Abs(r, (rectify uu))
                         end;
