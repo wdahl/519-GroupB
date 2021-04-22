@@ -9,6 +9,14 @@ fun remove(nil, n) = []
     | remove(z::l, n) = if z = n then remove(l, n)
                         else z::remove(l,n);
 
+fun contains((V x), nil) = false
+    | contains((V x), (V y)::l) = if x = y then true
+                        else contains((V x), l);
+
+fun double(nil) = false
+    | double((V x)::l) = if contains((V x), l) then true
+                    else double(l);
+
 fun BV (V x) = []
     | BV (App (x,y)) = union((BV x), (BV y))
     | BV (Abs (n,z)) = (V n)::(BV z);
