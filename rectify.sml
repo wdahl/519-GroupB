@@ -9,12 +9,12 @@ fun remove(nil, n) = []
     | remove(z::l, n) = if z = n then remove(l, n)
                         else z::remove(l,n);
 
-fun contains((V x), nil) = false
-    | contains((V x), (V y)::l) = if x = y then true
-                        else contains((V x), l);
+fun contains(x, nil) = false
+    | contains(x, y::l) = if x = y then true
+                        else contains(x, l);
 
 fun double(nil) = false
-    | double((V x)::l) = if contains((V x), l) then true
+    | double(x::l) = if contains(x, l) then true
                     else double(l);
 
 fun BV (V x) = []
@@ -56,11 +56,41 @@ fun alphaequal (V i) (V j) = (i = j)
                                                 end
     | alphaequal _ _ = false;
 
+fun rectified exp = if double(union((FV exp), (BV exp))) = false 
+                    andalso double((BV exp)) = false
+                    then true
+                    else false;
+
+fun changeVars (V x) = (V x)
+    | changeVars (App(u,v)) = App((changeVars u), (changeVars v))
+    | changeVars (Abs(m,u)) =   let
+                                    val r = newvarnum (Abs(m,u))
+                                    val uu = replacefvar m r u
+                                in
+                                    Abs(r, (changeVars uu))
+                                end;
+
 fun rectify (V x) = (V x)
-    | rectify (App(u,v)) = App((rectify u), (rectify v))
-    | rectify (Abs(m,u)) = let  
-                            val r = newvarnum (Abs(m,u))
-                            val uu = replacefvar m r u
-                        in
-                            Abs(r, (rectify uu))
-                        end;
+
+    | rectify (App(u,v)) =  if rectified (App(u,v)) = true 
+                            then App(u,v)
+
+                            else if rectified u = true andalso rectified v = true
+                            then rectify (App(u, (changeVars v)))
+
+                            else if rectified u = true 
+                            then rectify (App(u, (rectify v)))
+
+                            else if rectified v = true
+                            then rectify (App((rectify u), v))
+
+                            else rectify (App((rectify u), (rectify v)))       
+
+    | rectify (Abs(m,u)) = if rectified (Abs(m,u)) = true then Abs(m,u)
+                            else
+                                let
+                                    val r = newvarnum (Abs(m,u))
+                                    val uu = replacefvar m r u
+                                in
+                                    rectify (Abs(r, (rectify uu)))
+                                end;
