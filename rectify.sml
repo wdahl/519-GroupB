@@ -1,3 +1,8 @@
+(* 
+
+Ruthvik Arvapally, rarvapally@albany.edu, ra151769
+*)
+
 datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
                     | Abs of int * Lambdaexp;
