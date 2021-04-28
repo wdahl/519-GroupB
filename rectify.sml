@@ -1,7 +1,15 @@
 
-(*Name- Pooja Lokhandwala
-  NetID- PL443414
-  EmailId- plokhandwala@albany.edu*)
+(*
+
+Name - Pooja Lokhandwala
+NetID - PL443414
+EmailId - plokhandwala@albany.edu
+
+Name - Ruthvik Arvapally
+NetID - RA151769
+EmailId - rarvapally@albany.edu
+  
+*)
   
 datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
