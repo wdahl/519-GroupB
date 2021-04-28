@@ -13,6 +13,12 @@
 (*  Tianhao Wang
     twang22@albany.edu  
 *)
+
+(*
+    Ruthvik Arvapally
+    RA151769
+    rarvapally@albany.edu
+*)
   
 datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
