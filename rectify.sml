@@ -2,11 +2,17 @@
 
 (*  William Dahl 
     wdahl@albany.edu
-    wd347166    *)
-    
+    wd347166    
+*)
+
 (*  Pooja Lokhandwala
     PL443414
-    plokhandwala@albany.edu  *)
+    plokhandwala@albany.edu  
+*)
+
+(*  Tianhao Wang
+    twang22@albany.edu  
+*)
   
 datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
