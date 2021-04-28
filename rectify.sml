@@ -2,8 +2,13 @@ datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
                     | Abs of int * Lambdaexp;
 
-fun union(nil, y) = y
-    | union(x::l, y) = x::union(l, y);
+fun removeDups [] = []
+    | removeDups (x::l) = x::removeDups(List.filter (fn y=> y <> x) l);
+
+fun concat(nil, y) = y
+    | concat(x::l, y) = x::concat(l, y);
+
+fun union(x, y) = removeDups (concat(x,y));
 
 fun remove(nil, n) = []
     | remove(z::l, n) = if z = n then remove(l, n)
@@ -18,7 +23,7 @@ fun double(nil) = false
                     else double(l);
 
 fun BV (V x) = []
-    | BV (App (x,y)) = union((BV x), (BV y))
+    | BV (App (x,y)) = concat((BV x), (BV y))
     | BV (Abs (n,z)) = (V n)::(BV z);
 
 fun FV (V x) = [(V x)]
@@ -56,7 +61,7 @@ fun alphaequal (V i) (V j) = (i = j)
                                                 end
     | alphaequal _ _ = false;
 
-fun rectified exp = if double(union((FV exp), (BV exp))) = false 
+fun rectified exp = if double(concat((FV exp), (BV exp))) = false 
                     andalso double((BV exp)) = false
                     then true
                     else false;
