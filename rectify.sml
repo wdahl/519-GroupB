@@ -1,3 +1,9 @@
+(*  Group B *)
+(*  William Dahl 
+    wdahl@albany.edu
+    wd347166
+*)
+
 datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
                     | Abs of int * Lambdaexp;
