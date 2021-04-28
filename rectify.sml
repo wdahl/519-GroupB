@@ -1,9 +1,13 @@
 (*  Group B *)
+
 (*  William Dahl 
     wdahl@albany.edu
-    wd347166
-*)
-
+    wd347166    *)
+    
+(*  Pooja Lokhandwala
+    PL443414
+    plokhandwala@albany.edu  *)
+  
 datatype Lambdaexp = V of int
                     | App of Lambdaexp * Lambdaexp
                     | Abs of int * Lambdaexp;
